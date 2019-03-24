@@ -17,7 +17,7 @@
             android:src="@mipmap/ic_launcher"/>
         <TextView
             android:layout_marginTop="10dp"
-            android:id="@+id/textoprincipal"
+            android:id="@+id/textocriador"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="22sp"
