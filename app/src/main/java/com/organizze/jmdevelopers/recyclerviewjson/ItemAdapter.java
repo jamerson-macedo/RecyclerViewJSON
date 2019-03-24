@@ -13,6 +13,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+// primeiro cria a classe itemview holder
+// depois no construtor dele voce chama os atributos com os ids
+// depois cria o contexto e o arraylist do que voce quer
+// depois cria o construtor do msm
+////depois coloca o inflter do layout que voce construiu
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     private Context mcontext;

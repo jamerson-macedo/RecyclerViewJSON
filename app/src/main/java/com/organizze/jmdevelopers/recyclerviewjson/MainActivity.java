@@ -42,21 +42,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void parseJSON() {
+        // pega a url
         String URL="https://pixabay.com/api/?key=11982729-98e22b893c204e6f42460c30b&q=yellow+flowers&image_type=photo";
+        // o bjeto json como metodo get
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    // pegabdo o array do json
                     JSONArray jsonArray=response.getJSONArray( "hits");
                     for (int i =0;i<jsonArray.length(); i++){
                         JSONObject jsonHITS=jsonArray.getJSONObject(i);
                         String criador=jsonHITS.getString("user");
                         String imagemref=jsonHITS.getString("webformatURL");
                         int downloads=jsonHITS.getInt("likes");
+                        // passando os dados para o arraylist
                         itemArrayList.add(new Item(imagemref,criador,downloads));
 
 
                     }
+                    // estanciando o adapter e setando no recycler view
                     itemAdapter=new ItemAdapter(MainActivity.this,itemArrayList);
                     recyclerView.setAdapter(itemAdapter);
 
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 error.getStackTrace();
             }
         });
+       // passando o object para o request
         requestQueue.add(jsonObjectRequest);
     }
 }

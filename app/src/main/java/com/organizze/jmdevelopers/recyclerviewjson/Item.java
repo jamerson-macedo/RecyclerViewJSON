@@ -1,4 +1,5 @@
 package com.organizze.jmdevelopers.recyclerviewjson;
+// gets e sets
 
 public class Item {
     private String mImagemURL;
