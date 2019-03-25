@@ -22,6 +22,17 @@ import java.util.List;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
     private Context mcontext;
     private ArrayList<Item> mitems;
+    private OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClick) {
+        itemClickListener = onItemClick;
+
+    }
 
     public ItemAdapter(Context context, ArrayList<Item> items) {
         mcontext = context;
@@ -33,18 +44,18 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view=LayoutInflater.from(mcontext).inflate(R.layout.exemploitem,viewGroup,false);
+        View view = LayoutInflater.from(mcontext).inflate(R.layout.exemploitem, viewGroup, false);
         return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
-        Item itematual=mitems.get(i);
-        String imagemURL=itematual.getmImagemURL();
-        String nomecriador=itematual.getmCriador();
-        int mdownloads=itematual.getmLikes();
+        Item itematual = mitems.get(i);
+        String imagemURL = itematual.getmImagemURL();
+        String nomecriador = itematual.getmCriador();
+        int mdownloads = itematual.getmLikes();
         itemViewHolder.criador.setText(nomecriador);
-        itemViewHolder.downloads.setText("Likes :"+mdownloads);
+        itemViewHolder.downloads.setText("Likes :" + mdownloads);
         Picasso.get().load(imagemURL).fit().centerInside().into(itemViewHolder.imagemprincipal);
 
     }
@@ -65,6 +76,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             imagemprincipal = itemView.findViewById(R.id.fotoprincipal);
             criador = itemView.findViewById(R.id.textocriador);
             downloads = itemView.findViewById(R.id.textodownload);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            itemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
         }
     }

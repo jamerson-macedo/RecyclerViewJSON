@@ -2,6 +2,7 @@ package com.organizze.jmdevelopers.recyclerviewjson;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +22,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemAdapter.OnItemClickListener {
     private RecyclerView recyclerView;
     private ArrayList<Item> itemArrayList;
     private ItemAdapter itemAdapter;
     private RequestQueue requestQueue;
+    public static final String EXTRA_FOTO="imagemURL";
+    public static final String EXTRA_CRIADOR="criador";
+    public static final String EXTRA_DOWNLOAD="downloads";
 
 
     @Override
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     // estanciando o adapter e setando no recycler view
                     itemAdapter=new ItemAdapter(MainActivity.this,itemArrayList);
                     recyclerView.setAdapter(itemAdapter);
+                    itemAdapter.setOnItemClickListener(MainActivity.this);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -79,5 +84,16 @@ public class MainActivity extends AppCompatActivity {
         });
        // passando o object para o request
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent=new Intent(this,DetalhesActivity.class);
+        Item clicado=itemArrayList.get(position);
+        intent.putExtra(EXTRA_FOTO,clicado.getmImagemURL());
+        intent.putExtra(EXTRA_CRIADOR,clicado.getmCriador());
+        intent.putExtra(EXTRA_DOWNLOAD,clicado.getmLikes());
+        startActivity(intent);
+
     }
 }
